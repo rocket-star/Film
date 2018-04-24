@@ -1,13 +1,20 @@
 package Elements;
 
-public class Element {
-	private element e;
+public abstract class Element {
+	public int x, y;
+	private String type;
+	public Element(int x, int y) {
+		this.x=x;
+		this.y=y;
+	}
 	
-	public Element() {
+	public Element(Element e) {
+		this.x=e.x;
+		this.y=e.y;
 		
 	}
 	
-	public void Déplacer(element e) {
+	public void Déplacer(element e, nouvelle position) {
 		
 	}
 	

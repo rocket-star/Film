@@ -9,6 +9,8 @@ public class Texte extends Element {
 			texte.add(s);
 	}
 	
-	
+	public ArrayList<String> getTexte(){
+		return texte;
+	}
 
 }
