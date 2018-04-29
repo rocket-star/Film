@@ -1,50 +1,60 @@
 package Film;
 
 import java.io.IOException;
-
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.io.*;//Pour class File
 
-import Image.image;
+import Image.Image;
 
-public class film {
-	private ArrayList<image> Img =new ArrayList<image>();
-	private String NomFilm;
-	
-	public film(String NomF, String NomRep ) {//permet de lister le nom de chaque fichier d'un repertoire
-		this.NomFilm=NomF;
-		File repertoire = new File(NomRep);
-	        String liste[] = repertoire.list();      
-	 
-	        if (liste != null) {         
-	            for (int i = 0; i < liste.length; i++) {
-	            	image img = new image(liste[i]);
-	            }
-	        } else {
-	            System.err.println("Nom de repertoire invalide");
-	        }
+public class Film {
+	private ArrayList<Image> listeImage;
+	private String nomFilm;
+	private int longueur, largeur;
+
+	public Film(String nomF) {
+		this.nomFilm = nomF;
+		this.listeImage = new ArrayList<Image>();
+		this.largeur = 10;
+		this.longueur = 10;
 	}
-	
-	public void InsérerImage(image img, int x, int y) {
-		//Dans une arraylist ou linkedlist ??
+
+	public Film(String nomF, int longueur, int largeur) {
+		this.nomFilm = nomF;
+		this.listeImage = new ArrayList<Image>();
+		this.largeur = largeur;
+		this.longueur = longueur;
 	}
-	
-	public void SauvegarderFilm() throws IOException{
-		PrintWriter out = new PrintWriter(this.NomFilm + ".txt");
-		 out.println(this.Img);
+
+	public void sauvegarderFilm() throws IOException{
+		String contenuFilm;
+		contenuFilm = this.largeur + " " + this.longueur;
+		for(int i=0; i<this.listeImage.size(); i++) {
+			contenuFilm += this.listeImage.get(i).dessiner();
+			if(i != this.listeImage.size()-1) {
+				contenuFilm += "\newframe";
+			}
+		}
+		PrintWriter out = new PrintWriter(this.nomFilm + ".txt");
+		out.println(contenuFilm);	
 	}
-	
-	public void AjouterImgAuFilm(image img) throws IOException{
-		Img.add(img);//ajoute l'image img à la liste d'image Img
+
+	public void insererImage(Image img, int ind) {
+		this.listeImage.add(ind, img);
 	}
-	public image GetImage(int x, int y) {
-		return image.plan[x][y];//attribut plan en public ?
+
+	public void addImage(Image img) throws IOException{
+		//ajoute l'image listeImage à la liste d'image listeImage
+		this.listeImage.add(img);
 	}
-	
-	public void RetirerImage(int ind) {
-		Img.remove(ind);
+
+	public Image getImage(int ind) {
+		//retourne l'image à l'indice ind
+		return this.listeImage.get(ind);
 	}
-	
-	
+
+	public void retirerImage(int ind) {
+		this.listeImage.remove(ind);
+	}
+
+
 }

@@ -1,19 +1,29 @@
 package Elements;
 
-public class Caractère extends Element {
-private char caractère;
+public class Caractere extends Element {
+	private char caractère;
 
-
-	public Caractère(char c){
-		caractère = c;
+	public Caractere(char c, int x, int y){
+		super(x, y);
+		this.caractère = c;
 	}
-	
-	public char getCaractère() {
+
+	public char getCaractere() {
 		return caractère;
 	}
-	
-	public void setCaractère(char c) {
+
+	public void setCaractere(char c) {
 		if(c!=caractère)
 			caractère=c;
+	}
+
+	@Override//pour indiquer une méthode redefinie
+	public void deplacer(Element e, int x, int y) {
+
+	}
+
+	@Override
+	public void encadre(char c) {
+
 	}
 }

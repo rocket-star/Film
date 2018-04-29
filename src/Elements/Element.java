@@ -1,7 +1,7 @@
 package Elements;
 
 public abstract class Element {
-	public int x, y;
+	private int x, y;
 	private String type;
 	public Element(int x, int y) {
 		this.x=x;
@@ -11,15 +11,10 @@ public abstract class Element {
 	public Element(Element e) {
 		this.x=e.x;
 		this.y=e.y;
-		
 	}
 	
-	public void Déplacer(element e, nouvelle position) {
-		
-	}
+	public abstract void deplacer(Element e, int x, int y);
 	
-	public void Encadré(char c) {
-		
-	}
+	public abstract void encadre(char c);
 
 }
