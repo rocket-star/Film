@@ -1,7 +1,7 @@
 package Elements;
 
 public class ExtraitDeTexte extends Texte {
-	private enum position{HautGauche, Hautdroite, BasGauche, BasDroite};
+	private enum position{HautGauche, BasDroite};
 
 	public ExtraitDeTexte(String s, int x, int y) {
 		super(s, x, y);

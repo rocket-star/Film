@@ -3,10 +3,11 @@ package Elements;
 import java.util.ArrayList;
 
 public class Texte extends Element { 
-	private ArrayList<String> texte = new ArrayList<String>();
+	private ArrayList<String> texte;
 
 	public Texte(String s, int x , int y) {
 		super(x ,y);
+		texte = new ArrayList<String>();
 		texte.add(s);
 	}
 

@@ -1,28 +1,45 @@
 package Elements;
 
 public class Ligne extends Element {
-	private char ligne[];
+	private String type;
+	private char lettre;
 	private int taille = 0;
-	private enum inclinaison{Horizontale, Verticale, Oblique};
 
-	public Ligne(String s, int x, int y) { // Met la string s dans un tableau
+	public Ligne(char l, int x, int y, String type, int t) {
 		super(x, y);
-		for (int i = 0 ; i < s.length() ;i++)
-			ligne[i]=s.charAt(i);
-		taille= ligne.length;
-		inclinaison i = inclinaison.Horizontale;
+		this.lettre = l;
+		this.taille = t;
+		this.type = type;
+
 	}
 
 	public void rotationLigne(char ligne[]) {
 
 	}
 
-	public char[] getLigne() {
-		return ligne;
+	/*Renvoie une String contenant la ligne*/
+	public String getLigne() {
+		String s ="";
+		if(this.type.equals("horizontale")) {
+
+			for(int i = 0; i<this.taille; i++) {
+				s += this.lettre;
+			}
+			return s;
+		}
+		if(this.type.equals("verticale")) {
+			for(int i = 0; i<this.taille; i++) {
+				s += this.lettre + "\n";
+			}
+			return s;
+		}
+		return "x";
+
+
 	}
 
 	@Override
-	public void deplacer(Element e, int x, int y) {
+	public void deplacer( int x, int y) {
 
 	}
 
@@ -32,13 +49,47 @@ public class Ligne extends Element {
 	}
 
 	public String toString() {
-		String s=" ";
-		for(char c : ligne) {
-			s += c;
-		}
-		return s;
-
+		return this.getLigne();
 	}
 
+	public char[][] dessiner(char[][] tab, int x, int y){//x est la ligne et y la colonne
+		if(this.type.equals("horizontale")){
+			int c = y;
+			for (int i = 0; i<taille; i++) {
+				tab[x][c] = this.lettre;
+				++c;
+			}
+			return tab;
 
+		}
+		if(this.type.equals("verticale")) {
+			int i = x;
+			for ( int j = 0; j<taille; j++) {
+				tab[i][y] = this.lettre;
+				++i;
+			}return tab;
+		}
+
+		if(this.type.equals("obliqueC")) {//// C pour oblique croissant
+			int ligne = x;
+			int colonne = y;
+			for (int e = 0; e<taille; e++ ) {
+				tab[ligne][colonne] = this.lettre;
+				--ligne;
+				++colonne;
+			}	return tab;
+		}
+
+		if(this.type.equals("obliqueD")) {// D pour oblique décroissant
+			int li = x;
+			int col = y;
+			for (int s = 0; s<taille; s++ ) {
+				tab[li][col] = this.lettre;
+				++li;
+				++col;
+			}	
+		}return tab;
+
+
+	}
 }

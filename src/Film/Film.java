@@ -29,7 +29,7 @@ public class Film {
 		String contenuFilm;
 		contenuFilm = this.largeur + " " + this.longueur;
 		for(int i=0; i<this.listeImage.size(); i++) {
-			contenuFilm += this.listeImage.get(i).dessiner();
+			contenuFilm += this.listeImage.get(i).toString();//toString=dessiner
 			if(i != this.listeImage.size()-1) {
 				contenuFilm += "\newframe";
 			}
