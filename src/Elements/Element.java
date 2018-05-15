@@ -19,7 +19,7 @@ public abstract class Element {
 
 	public abstract void deplacer( int x, int y);
 
-	public abstract void encadre(char c);
+	public abstract void encadre(char c, char[][] tab);
 	
 	public abstract char[][] dessiner(char[][] tab, int x, int y);
 	

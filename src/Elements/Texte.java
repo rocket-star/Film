@@ -14,14 +14,18 @@ public class Texte extends Element {
 	public ArrayList<String> getTexte(){
 		return texte;
 	}
+	
+	public void ajouterLigne(String l) {
+		this.texte.add(l);
+	}
 
 	@Override
-	public void deplacer(Element e, int x, int y) {
+	public void deplacer( int x, int y) {
 
 	}
 
 	@Override
-	public void encadre(char c) {
+	public void encadre(char c, char[][] tab) {
 
 	}
 

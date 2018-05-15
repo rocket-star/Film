@@ -24,10 +24,25 @@ public class Caractere extends Element {
 	}
 
 	@Override
-	public void encadre(char c) {
-		
+	public void encadre(char c, char[][] tab) {
+
+		int departX = this.getX()-1;
+		int departY = this.getY()-1;
+
+
+		int arriveeX = this.getX()+1;
+		int arriveeY = this.getY()+1;
+
+		int diffX = arriveeX - departX + 1;
+		for (int i = 0; i < diffX; i++) {
+			tab[departX+i][departY] = c;
+			tab[departX][departY+i] = c;
+			tab[arriveeX][arriveeY - i] = c;
+			tab[arriveeX - i][arriveeY] = c;
+		}
 	}
-	
+
+
 	public char[][] dessiner(char[][] tab, int x, int y) {
 		tab[x][y] = this.getCaractere();
 		return tab;

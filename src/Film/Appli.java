@@ -1,15 +1,19 @@
 package Film;
 
+import Elements.Caractere;
 import Elements.Ligne;
 import Image.Image;
 
 public class Appli {
 	public static void main(String[] args) {
 		//Caractere c = new Caractere('a', 2, 2);
-		Ligne l = new Ligne('a', 3, 2, "obliqueD", 5);
+		Ligne l = new Ligne('a', 5, 2, "verticale", 4);
 		Image img = new Image("image", 20, 20);
 		img.insererElement(l, 0);
+		l.rotationLigne(img.getTab(), l.getX(), l.getY(), "obliqueD");
 		//img.insererElement(c, 0);
+		//c.encadre('x', img.getTab());
+		//l.encadre('x', img.getTab());
 		System.out.println(img.toString());
 	
 /*Ligne
