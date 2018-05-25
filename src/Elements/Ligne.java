@@ -1,180 +1,175 @@
 package Elements;
 
+import Direction.Direction;
+
 public class Ligne extends Element {
-	private String type;
+	private Direction direction;
 	private char lettre;
 	private int taille = 0;
 
-	public Ligne(char l, int x, int y, String type, int t) {
+	public Ligne(char l, int x, int y, Direction dir, int t) {
 		super(x, y);
 		this.lettre = l;
 		this.taille = t;
-		this.type = type;
+		this.direction = dir;
 
 	}
-
-	public void rotationLigne( char[][] tab, int x, int y, String typeRotation) {//(x,y) les coordonnées du point de rotation
-		if(!this.type.equals(typeRotation)) {
-			switch (this.type) {
-
-			case "horizontale":
-				int c = y;
-				for (int i = 0; i<taille; i++) {
-					tab[x][c] = ' ';
-					++c;
-				}
-				this.type = typeRotation;
-				this.dessiner(tab, x, y);
-				break;
-
-			case "verticale":
-				int e = x;
-				for ( int j = 0; j<taille; j++) {
-					tab[e][y] = ' ';
-					++e;
-				}
-				this.type = typeRotation;
-				this.dessiner(tab, x, y);
-				break;
-
-			case "obliqueC":
-				int ligne = x;
-				int colonne = y;
-				for (int k = 0; k<taille; k++ ) {
-					tab[ligne][colonne] = ' ';
-					--ligne;
-					++colonne;
-				}
-				this.type = typeRotation;
-				this.dessiner(tab, x, y);
-				break;
-
-			case "obliqueD":
-				int li = x;
-				int col = y;
-				for (int s = 0; s<taille; s++ ) {
-					tab[li][col] = this.lettre;
-					++li;
-					++col;
-				}
-				this.type = typeRotation;
-				this.dessiner(tab, x, y);
-				break;
-
-			default:
-				break;
-			}
-		}
+	
+	public Direction getDirection() {
+		return this.direction;
+	}
+	
+	public void setTaille(int t) {
+		this.taille = t;
+	}
+	
+	public void setLettre(char l) {
+		this.lettre = l;
 	}
 
-	/*Renvoie une String contenant la ligne*/
-	public String getLigne() {
-		String s ="";
-		if(this.type.equals("horizontale")) {
-
-			for(int i = 0; i<this.taille; i++) {
-				s += this.lettre;
-			}
-			return s;
-		}
-		if(this.type.equals("verticale")) {
-			for(int i = 0; i<this.taille; i++) {
-				s += this.lettre + "\n";
-			}
-			return s;
-		}
-		return "x";
-
-
+	public void rotationLigne( Direction nouvelleDirection) {//(x,y) les coordonnées du point de rotation
+		if(!this.direction.equals(nouvelleDirection)) {
+			this.direction =nouvelleDirection;
+		}		
 	}
 
 	@Override
-	public void deplacer( int x, int y) {
+	public void dessineCadre(char[][] tab) {
+		if(this.getEstEncadrer()) {
 
+
+			int departX = this.getX() - 1;
+			int departY = this.getY() - 1;
+
+			int arriveeX = 0;
+			int arriveeY = 0;
+
+			if (this.direction.equals(Direction.SUD)) {
+				arriveeX = this.getX() + this.taille;
+				arriveeY = this.getY() + 1;
+			} else if (this.direction.equals(Direction.EST)) {
+				arriveeX = this.getX() + 1;
+				arriveeY = this.getY()+ this.taille;
+			} else if (this.direction.equals(Direction.OUEST)) {
+				arriveeX = this.getX() + 1;
+				arriveeY = this.getY() + 1;
+				departY = this.getY() - this.taille;
+			}else if (this.direction.equals(Direction.NORD)) {
+				arriveeX = this.getX() + 1;
+				arriveeY = this.getY() + 1;
+				departX = this.getX() - this.taille;
+			}else if (this.direction.equals(Direction.NORD_EST)) {
+				arriveeX = this.getX() + 1;
+				arriveeY = this.getY() + this.taille;
+				departX = this.getX() - this.taille;
+			} else if (this.direction.equals(Direction.NORD_OUEST)) {
+				arriveeX = this.getX() + 1;
+				arriveeY = this.getY() + 1;
+				departX = this.getX() - this.taille;
+				departY = this.getY() - this.taille;
+			} else if (this.direction.equals(Direction.SUD_EST)) {
+				arriveeX = this.getX() + this.taille;
+				arriveeY = this.getY() + this.taille;
+			} else if (this.direction.equals(Direction.SUD_OUEST)) {
+				arriveeX = this.getX() + this.taille;
+				arriveeY = this.getY() + 1;
+				departY = this.getY() - this.taille;
+			}
+
+			int diffX = Math.abs(arriveeX - departX)+1;
+			int diffY = Math.abs(arriveeY - departY);
+
+			for (int n = 0; n < diffX; n++) {
+				tab[departX+n][departY]=this.getCaracterEncadrement();
+				tab[arriveeX-n][arriveeY]=this.getCaracterEncadrement();
+			}
+			for(int j = 0; j < diffY; j++) {
+				tab[arriveeX][arriveeY-j]=this.getCaracterEncadrement();
+				tab[departX][departY+j]=this.getCaracterEncadrement();
+			}
+		}
 	}
 
-	@Override
-	public void encadre(char c, char[][] tab) {
 
-		int departX = this.getX() - 1;
-		int departY = this.getY() - 1;
 
-		int arriveeX = 0;
-		int arriveeY = 0;
-
-		if (this.type.equals("verticale")) {
-			arriveeX = this.getX() + this.taille;
-			arriveeY = this.getY() + 1;
-		} else if (this.type.equals("horizontale")) {
-			arriveeX = this.getX() + 1;
-			arriveeY = this.getY()+ this.taille;
-		} else if (this.type.equals("obliqueC")) {
-			arriveeX = this.getX() + 1;
-			arriveeY = this.getY() + this.taille;
-			departX = this.getX() - this.taille;
-			departY = this.getY() - 1;
-		} else if (this.type.equals("obliqueD")) {
-			arriveeX = this.getX() + this.taille;
-			arriveeY = this.getY() + this.taille;
-			departX = this.getX() - 1;
-			departY = this.getY() - 1;
-		}
-
-		int diffX = Math.abs(arriveeX - departX)+1;
-		int diffY = Math.abs(arriveeY - departY);
-
-		for (int n = 0; n < diffX; n++) {
-			tab[departX+n][departY]=c;
-			tab[arriveeX-n][arriveeY]=c;
-		}
-		for(int j = 0; j < diffY; j++) {
-			tab[arriveeX][arriveeY-j]=c;
-			tab[departX][departY+j]=c;
-		}
-	}
-
-	public String toString() {
-		return this.getLigne();
-	}
-
-	public char[][] dessiner(char[][] tab, int x, int y){//x est la ligne et y la colonne
-		if(this.type.equals("horizontale")){
-			int c = y;
+	public void dessiner(char[][] tab){//this.getX() est la ligne et y la colonne
+		if(this.direction.equals(Direction.EST)){
+			int c = this.getY();
 			for (int i = 0; i<taille; i++) {
-				tab[x][c] = this.lettre;
+				tab[this.getX()][c] = this.lettre;
 				++c;
+			}//return tab;
+		}
+
+		if(this.direction.equals(Direction.OUEST)){
+			int c = this.getY();
+			for (int i = 0; i<taille; i++) {
+				tab[this.getX()][c] = this.lettre;
+				--c;
 			}
-			return tab;
 
 		}
-		if(this.type.equals("verticale")) {
-			int i = x;
+		if(this.direction.equals(Direction.SUD)) {
+			int i = this.getX();
 			for ( int j = 0; j<taille; j++) {
-				tab[i][y] = this.lettre;
+				tab[i][this.getY()] = this.lettre;
 				++i;
-			}return tab;
+			}//return tab;
 		}
 
-		if(this.type.equals("obliqueC")) {//// C pour oblique croissant
-			int ligne = x;
-			int colonne = y;
+		if(this.direction.equals(Direction.NORD)) {
+			int i = this.getX();
+			for ( int j = 0; j<taille; j++) {
+				tab[i][this.getY()] = this.lettre;
+				--i;
+			}
+		}
+
+		if(this.direction.equals(Direction.NORD_EST)) {//// C pour oblique croissant
+			int ligne = this.getX();
+			int colonne = this.getY();
 			for (int e = 0; e<taille; e++ ) {
 				tab[ligne][colonne] = this.lettre;
 				--ligne;
 				++colonne;
-			}	return tab;
+			}	//return tab;
 		}
 
-		if(this.type.equals("obliqueD")) {// D pour oblique décroissant
-			int li = x;
-			int col = y;
+		if(this.direction.equals(Direction.NORD_OUEST)) {//// C pour oblique croissant
+			int ligne = this.getX();
+			int colonne = this.getY();
+			for (int e = 0; e<taille; e++ ) {
+				tab[ligne][colonne] = this.lettre;
+				--ligne;
+				--colonne;
+			}
+		}
+
+		if(this.direction.equals(Direction.SUD_EST)) {// D pour oblique décroissant
+			int li = this.getX();
+			int col = this.getY();
 			for (int s = 0; s<taille; s++ ) {
 				tab[li][col] = this.lettre;
 				++li;
 				++col;
 			}	
-		}return tab;
+		}//return tab;
+
+		if(this.direction.equals(Direction.SUD_OUEST)) {// D pour oblique décroissant
+			int li = this.getX();
+			int col = this.getY();
+			for (int s = 0; s<taille; s++ ) {
+				tab[li][col] = this.lettre;
+				++li;
+				--col;
+			}	
+		}
+
+		if (this.getEstEncadrer()) {
+			dessineCadre(tab);
+		}
 
 
 	}
 }
+

@@ -1,3 +1,4 @@
+
 package Elements;
 
 import java.util.ArrayList;
@@ -14,18 +15,51 @@ public class Texte extends Element {
 	public ArrayList<String> getTexte(){
 		return texte;
 	}
-	
+
 	public void ajouterLigne(String l) {
+		//if(l.getDirection().equals(Direction.EST))
 		this.texte.add(l);
 	}
 
-	@Override
-	public void deplacer( int x, int y) {
-
+	public void enleverLigne(int ind) {
+		//if(l.getDirection().equals(Direction.EST))
+		this.texte.remove(ind);
 	}
 
 	@Override
-	public void encadre(char c, char[][] tab) {
+	public void dessineCadre(char[][] tab) {
+		int plusLong = 0;
+		int departX = this.getX() - 1;
+		int departY = this.getY() - 1;
+
+		for(String st : texte) {
+			if(st.length()> plusLong)
+				plusLong = st.length();
+		}
+		int arriveeX = this.getX() + this.texte.size();
+		int arriveeY = this.getY() + plusLong;
+		
+		int diffX = Math.abs(arriveeX - departX)+1;
+		int diffY = Math.abs(arriveeY - departY);
+		
+		for (int n = 0; n < diffX; n++) {
+			try {
+			tab[departX+n][departY]=this.getCaracterEncadrement();
+			tab[arriveeX-n][arriveeY]=this.getCaracterEncadrement();
+			}
+			catch(ArrayIndexOutOfBoundsException e) {
+			}
+		}
+		for(int j = 0; j < diffY; j++) {
+			try {
+			tab[arriveeX][arriveeY-j]=this.getCaracterEncadrement();
+			if(j+departY != tab[0].length-1)
+			tab[departX][departY+j]=this.getCaracterEncadrement();
+			}
+			catch(ArrayIndexOutOfBoundsException e) {
+				
+			}
+		}
 
 	}
 
@@ -36,6 +70,29 @@ public class Texte extends Element {
 			s += "\n";
 		}
 		return s;
+	}
+
+	@Override
+	public void dessiner(char[][] tab) {
+
+		int X = this.getX();
+
+		for( int j = 0; j < texte.size(); j++) {
+
+			for(int i = 0; i < texte.get(j).length(); i++) {
+
+				try {
+					tab[X][this.getY() + i] = texte.get(j).charAt(i);
+				}
+				catch(ArrayIndexOutOfBoundsException e) {
+				}
+
+			}
+			X++;
+		}
+
+
+
 	}
 
 }

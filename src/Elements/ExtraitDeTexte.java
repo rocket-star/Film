@@ -1,24 +1,30 @@
 package Elements;
 
-public class ExtraitDeTexte extends Texte {
-	private enum position{HautGauche, BasDroite};
+public class ExtraitDeTexte extends Element {
+	private int enHautAGauche, enBasADroite;
+	private Texte texte;
 
-	public ExtraitDeTexte(String s, int x, int y) {
-		super(s, x, y);
-	}
-
-	@Override
-	public void deplacer(Element e, int x, int y) {
-
-	}
-
-	@Override
-	public void encadre(char c) {
-
+	public ExtraitDeTexte( Texte t, int x, int y, int HG, int BD) {
+		super(x, y);
+		this.enHautAGauche = HG;
+		this.enBasADroite = BD;
+		this.texte = t;
 	}
 
 	public String toString() {
 		String s=" ";
 		return s;
+	}
+
+	@Override
+	public void dessineCadre(char[][] tab) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void dessiner(char[][] tab) {
+		// TODO Auto-generated method stub
+		
 	}
 }
